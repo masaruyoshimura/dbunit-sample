@@ -1,0 +1,40 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.0'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+    id 'java-library'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.flywaydb:flyway-core'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    testImplementation(platform('org.junit:junit-bom:5.8.2'))
+    testImplementation('org.junit.jupiter:junit-jupiter')
+    testRuntimeOnly 'com.h2database:h2'
+    testImplementation group: 'org.dbunit', name: 'dbunit', version: '2.7.0'
+    testImplementation group: 'com.github.springtestdbunit', name: 'spring-test-dbunit', version: '1.3.0'
+}
+
+tasks.named('test') {
+  useJUnitPlatform()
+
+  testLogging {
+    showStandardStreams true
+    events 'started', 'skipped', 'passed', 'failed'
+    exceptionFormat 'full'
+  }
+}
